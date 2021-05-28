@@ -5,7 +5,7 @@ from django.db.models.fields.related import ForeignKey, ManyToManyField
 
 # Create your models here.
 class Tipo(models.Model):
-    descripcion = CharField(max_length=50)
+    descripcion = CharField(max_length=50, null=False, blank=False)
 
 class Zona(models.Model):
     descripcion = CharField(max_length=50)
@@ -27,13 +27,11 @@ class Atractivo(models.Model):
     lon = IntegerField()
 
 class Horario(models.Model):
-    atractivo = ForeignKey(Atractivo, on_delete=CASCADE)
     inicio = TimeField()
     final = TimeField()
-    dias = IntegerField()
     descripcion = CharField(max_length=100)
 
-class Precio(models.Model):
-    atractivo = ForeignKey(Atractivo, on_delete=CASCADE)
-    cantidad = IntegerField()
-    descripcion = CharField(max_length=100)
+class horario_atractivo(models.Model):
+    atractivo = ForeignKey(Atractivo)
+    horario = ForeignKey(Horario)
+    dias = IntegerField()

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Reseña(models.Model):
-    usuario = ForeignKey(User, on_delete=CASCADE)
-    atractivo = ForeignKey(Atractivo, on_delete=CASCADE)
+    usuario = ForeignKey(User, on_delete=CASCADE, primary_key=True)
+    atractivo = ForeignKey(Atractivo, on_delete=CASCADE, primary_key=True)
     evaluacion = Choices([1,2,3,4,5])
     Descripcion = CharField(max_length=600)
