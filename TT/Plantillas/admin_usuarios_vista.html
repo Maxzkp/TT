@@ -4,6 +4,7 @@
 
 {% block cuerpo %}
 
+<div class="py-1 px-1">
 <table class="table table-striped">
     <thead>
         <tr>
@@ -49,7 +50,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                 <form action="#" method="POST">{% csrf_token %}
-                                <button type="submit" name='req' value={{ usuario.username }} class="btn btn-success">Confirmar</button>
+                                <button type="submit" name='req' value={{ usuario.id }} class="btn btn-success">Confirmar</button>
                                 </form>
                             </div>
                           </div>
@@ -75,7 +76,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                 <form action="#" method="POST">{% csrf_token %}
-                                <button type="submit" name='req' value={{ usuario.username }} class="btn btn-success">Confirmar</button>
+                                <button type="submit" name='req' value={{ usuario.id }} class="btn btn-success">Confirmar</button>
                                 </form>
                             </div>
                           </div>
@@ -89,5 +90,6 @@
         {% endfor %}
     </tbody>
 </table>  
+</div>
 
 {% endblock cuerpo %}
