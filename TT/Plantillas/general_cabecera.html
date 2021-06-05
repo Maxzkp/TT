@@ -1,14 +1,16 @@
-{% extends 'general_plantillaPrincipal.html' %}
+{% extends 'general_plantillaPrincipal.html' %} 
 
-{% block titulo_base %} - Cabecera {% endblock titulo_base %}
+{% block titulo_base %} - Cabecera {% endblock titulo_base %} 
 
 {% block cuerpo_base %}
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Navbar</a>
     </div>
 </nav>
-{% block cuerpo %}
-<h1 class="text-white">Sin cuerpo</h1>
-{% endblock cuerpo %}
+<div class="container bg-white mt-5 rounded-3">
+    {% block cuerpo %}
+    <h1>Sin cuerpo</h1>
+    {% endblock cuerpo %}
+</div>
 {% endblock cuerpo_base %}
