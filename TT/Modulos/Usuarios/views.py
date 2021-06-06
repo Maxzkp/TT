@@ -1,4 +1,4 @@
-from django.core.checks import messages
+from django.contrib import messages
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
@@ -17,44 +17,46 @@ def admin_vista(request):
             usuario = usuario.first()
             usuario.is_active = not usuario.is_active
             usuario.save()
-        return redirect('lista_usuarios') 
-        #render(request, "admin_usuarios_vista.html", {'usuarios':usuarios})
+        return redirect('lista_usuarios')
 
 def turista_registrar(request):
-    contextDict = {
-        'name':'',
-        'email':'',
-        'name_err':'',
-        'email_err':'',
-        'passwd_err':'',
-        'pconfirm_err':''
-    }
     if request.method == 'GET':
-        return render(request, "turista_usuarios_registrar.html", contextDict)
+        return render(request, "turista_usuarios_registrar.html", {'name':'', 'email':''})
+
     elif request.method == 'POST':
         #Crear Usuario
-        usuario_nuevo = User(username=request.POST['name'], email=request.POST['email'])
+        if request.POST['email'] == '':
+            messages.add_message(request, messages.ERROR, 'No se ingresó un correo electronico')
+            return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
+        usuario_nuevo = User(username=request.POST['name'].strip(), email=request.POST['email'])
 
         #Validar y añadir contraseña
         try:
-            validate_password(request.POST['pass'])
-        except ValidationError as e:
-            pass
-        if request.POST['pass'] == request.POST['passConf']:
-            usuario_nuevo.set_password(request.POST['pass'])
+            validate_password(request.POST['pass'], usuario_nuevo)
+        except ValidationError as errors:
+            for error in errors:
+                messages.add_message(request, messages.ERROR, error)
+            return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
+
+        if request.POST['pass'] != request.POST['passConf']:
+            messages.add_message(request, messages.ERROR, 'Las contraseñas no coinciden')
+            return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
+        usuario_nuevo.set_password(request.POST['pass'])
         
         #Validar el objeto con el modelo
-        usuario_nuevo.full_clean()
         try:
             usuario_nuevo.full_clean()
             usuario_nuevo.save()
             usuario_nuevo.groups.add(Group.objects.filter(name='Turista').first())
             return redirect('lista_usuarios')
-        except ValidationError as e:
-            contextDict['name'] = request.POST['name']
-            contextDict['email'] = request.POST['email']
-            msg = e
-            return render(request, "turista_usuarios_registrar.html", contextDict)
+        except ValidationError as errors:
+            for error in errors:
+                for e in error[1]:
+                    messages.add_message(request, messages.ERROR, e)
+            return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
+
+def turista_cambiarContraseña(request):
+    return render(request, "turista_usuarios_recuperarContraseña.html")
 
 def turista_recuperarContraseña(request):
     return render(request, "turista_usuarios_recuperarContraseña.html")
