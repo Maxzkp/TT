@@ -1,0 +1,73 @@
+{% extends 'general_plantillaPrincipal.html' %} 
+
+{% block titulo_base %} - Registro{% endblock titulo_base %}
+
+{% block cuerpo_base %}
+<div class="row mt-5">
+    <center>
+        <div class="col-lg-3">
+            <div class="container bg-white mt-5 rounded-3">
+                <h2 class="pt-5" style="color: #0a699e;">Registro</h2>
+                <form action="#" method="POST" class="mt-5 pb-5 needs-validation" novalidate>{% csrf_token %}
+                    <div class="row">
+                        <center>
+                            <div class="col-9">
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text bg-white" id="inputGroup-sizing" style="color: #0a699e;">
+                                    <i class="bi-person" style="font-size: 1.5rem; color: #46daff;"></i>
+                                    </span>
+                                    <input type="text" name="name" value="{% if name != '' %}{{ name }} {% endif %}" placeholder="Nombre de usuario" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-9">
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text bg-white" id="inputGroup-sizing" style="color: #0a699e;">
+                                    <i class="bi-envelope" style="font-size: 1.5rem; color: #46daff;"></i>
+                                </span>
+                                    <input type="email" name="email" value="{{ email }}" placeholder="Correo electronico" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
+
+                            <div class="col-9">
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text bg-white" id="inputGroup-sizing" style="color: #0a699e;">
+                                    <i class="bi-lock" style="font-size: 1.5rem; color: #46daff;"></i>
+                                </span>
+                                    <input type="password" name="pass" placeholder="Contraseña" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
+
+                            <div class="col-9">
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text bg-white" id="inputGroup-sizing" style="color: #0a699e;">
+                                    <i class="bi-lock" style="font-size: 1.5rem; color: #46daff;"></i>
+                                </span>
+                                    <input type="password" name="passConf" placeholder="Confirmar contraseña" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <button class="btn btn-primary mt-4" type="submit" style="background-color: #0a699e; border-color: #0a699e;">Registrar</button>
+                    <button class="btn btn-primary mt-4 text-dark" type="button" href="lista_usuarios" style="background-color: #ffffff; border-color: #0a699e;">Volver</button>
+                </form>
+            </div>
+
+        </div>
+
+        {% if messages %}
+        <div class="mt-2 col-5"></div>
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </center>
+</div>
+{% endblock cuerpo_base %}
