@@ -1,8 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import Group, User
+from django.template.loader import get_template
+from django.conf import settings
 
 # Create your views here.
 def admin_vista(request):
@@ -27,6 +31,10 @@ def turista_registrar(request):
         #Crear Usuario
         if request.POST['email'] == '':
             messages.add_message(request, messages.ERROR, 'No se ingresó un correo electronico')
+            return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
+
+        if User.objects.filter(email=request.POST['email']).count() != 0:
+            messages.add_message(request, messages.ERROR, 'Ya hay un usuario con ese correo electronico')
             return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
         usuario_nuevo = User(username=request.POST['name'].strip(), email=request.POST['email'])
 
@@ -56,7 +64,53 @@ def turista_registrar(request):
             return render(request, "turista_usuarios_registrar.html", {'name':request.POST['name'].strip(), 'email':request.POST['email']})
 
 def turista_cambiarContraseña(request):
-    return render(request, "turista_usuarios_recuperarContraseña.html")
+    if request.method == 'GET':
+        user = User.objects.filter(id=request.GET['usr']).first()
+        return render(request, "turista_usuarios_cambiarContaseña.html", {'usr':user})
+    elif request.method == 'POST':
+        user = User.objects.filter(id=request.POST['usrp']).first()
+        if check_password(request.POST['origPass'], user.password ):
+            
+            try:
+                validate_password(request.POST['newPass'], user)
+            except ValidationError as errors:
+                for error in errors:
+                    messages.add_message(request, messages.ERROR, error)
+                return render(request, "turista_usuarios_cambiarContaseña.html", {'usr':user})
+            
+            if request.POST['newPass'] != request.POST['passConf']:
+                messages.add_message(request, messages.ERROR, 'Las contraseñas no coinciden')
+                return render(request, "turista_usuarios_cambiarContaseña.html", {'usr':user})
+            
+            user.set_password(request.POST['newPass'])
+            user.save()
+            return redirect('/lista_usuarios/')
+
+        else:
+            messages.add_message(request, messages.ERROR, 'La contraseña original no es correcta')
+            return render(request, "turista_usuarios_cambiarContaseña.html", {'usr':user})
+
+def send_recoverEmail(email, passwd):
+    template = get_template('correo_usuarios_recuperarContraseña.html')
+    content = template.render({'pass':passwd})
+
+    mail = EmailMultiAlternatives(
+        'Recuperacion de contraseña',
+        'Correo de recuperacion de contraseña',
+        settings.EMAIL_HOST_USER,
+        [email]
+    )
+
+    mail.attach_alternative(content, 'text/html')
+    mail.send()
 
 def turista_recuperarContraseña(request):
-    return render(request, "turista_usuarios_recuperarContraseña.html")
+    if request.method == 'GET':
+        return render(request, "turista_usuarios_recuperarContraseña.html")
+    elif request.method == 'POST':
+        user = User.objects.filter(email=request.POST['email']).first()
+        new_pass = User.objects.make_random_password()
+        user.set_password(new_pass)
+        user.save()
+        send_recoverEmail(user.email, new_pass)
+        return redirect('/lista_usuarios/')
