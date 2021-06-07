@@ -5,5 +5,5 @@ Necesarios
 >>django
 >>decouple
 
->consts.env
+>.env
 >>EMAIL_HOST_PASSWORD = <Contraseña del correo>
