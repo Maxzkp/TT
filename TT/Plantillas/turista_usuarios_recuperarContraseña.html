@@ -1,0 +1,31 @@
+{% extends 'general_plantillaPrincipal.html' %} 
+
+{% block titulo_base %} - Recuperar contraseña{% endblock titulo_base %} 
+
+{% block cuerpo_base %}
+<div class="row mt-5">
+    <center>
+        <div class="col-lg-3">
+            <div class="container bg-white mt-5 rounded-3">
+                <h2 class="pt-5" style="color: #0a699e;">Recuperar contraseña</h2>
+                <form action="" method="POST" class="mt-5 pb-5">{% csrf_token %}
+                    <div class="row">
+                        <center>
+                            <div class="col-9">
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text bg-white" id="inputGroup-sizing" style="color: #0a699e;">
+                                    <i class="bi-envelope" style="font-size: 1.5rem; color: #46daff;"></i>
+                                </span>
+                                    <input type="email" placeholder="Correo electronico" name="email" id="floatingInputInvalid" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <button class="btn btn-primary mt-4"  type="submit" style="background-color: #0a699e; border-color: #0a699e;">Recuperar</button>
+                    <a class="btn btn-primary mt-4 text-dark" href="lista_usuarios/" style="background-color: #ffffff; border-color: #0a699e;">Volver</a>
+                </form>
+            </div>
+        </div>
+    </center>
+</div>
+{% endblock cuerpo_base %}

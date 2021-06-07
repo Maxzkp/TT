@@ -1,9 +1,13 @@
-{% extends 'general_cabecera.html' %} {% block titulo_base %} - Vista usuarios{% endblock titulo_base %} {% block cuerpo %}
+{% extends 'general_cabecera.html' %} 
 
+{% block titulo_base %} - Vista usuarios{% endblock titulo_base %} 
+
+{% block cuerpo %}
+
+<div class="py-1 px-1">
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Correo</th>
             <th scope="col">Tipo</th>
@@ -11,28 +15,81 @@
         </tr>
     </thead>
     <tbody>
+        {% for usuario in usuarios %}
         <tr>
-            <th scope="row">1</th>
-            <td>Juan</td>
-            <td>juan@mail.com</td>
-            <td><span class="badge text-dark" style="background-color: chartreuse;">Turista</span></td>
-            <td><button type="button" class="btn btn-success btn-sm"><i class="bi-unlock" style="font-size: 1rem;"></i></button></td>
+            <td>{{ usuario.username }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>
+            {% for group in usuario.groups.all %}
+                {% if group.name == 'Turista' %}
+                <span class="badge text-dark" style="background-color: chartreuse;">{{ group.name }}</span>
+                {% elif group.name == 'Capturista' %}
+                <span class="badge text-dark" style="background-color: orange;">{{ group.name }}</span>
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+
+                {% if usuario.is_active %}
+                    <!-- Boton de Bloqueo de usuarios -->
+                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ModalLock{{ usuario.username }}">
+                        <i class="bi-unlock" style="font-size: 1rem;"></i>
+                    </button>
+
+                    <!-- Modal de Bloqueo de usuarios -->
+                    <div class="modal fade" id="ModalLock{{ usuario.username }}" tabindex="-1" aria-labelledby="ModalLock{{ usuario.username }}Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="ModalLock{{ usuario.username }}Label">Bloqueo de usuario</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Esta seguro que desea bloquear al usuario <b>{{ usuario.username }}</b>?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <form action="#" method="POST">{% csrf_token %}
+                                <button type="submit" name='req' value={{ usuario.id }} class="btn btn-success">Confirmar</button>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                {% else %}
+                    <!-- Boton de Desbloqueo de usuarios -->
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#ModalUnlock{{ usuario.username }}">
+                        <i class="bi-lock" style="font-size: 1rem;"></i>
+                    </button>
+
+                    <!-- Modal de Desbloqueo de usuarios -->
+                    <div class="modal fade" id="ModalUnlock{{ usuario.username }}" tabindex="-1" aria-labelledby="ModalUnock{{ usuario.username }}Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="ModalUnlock{{ usuario.username }}Label">Desbloqueo de usuario</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Esta seguro que desea desbloquear al usuario <b>{{ usuario.username }}</b>?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <form action="#" method="POST">{% csrf_token %}
+                                <button type="submit" name='req' value={{ usuario.id }} class="btn btn-success">Confirmar</button>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                {% endif %}
+            </td>
         </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Juan</td>
-            <td>juan@mail.com</td>
-            <td><span class="badge px-2" style="background-color:orange;">Capturista</span></td>
-            <td><button type="button" class="btn btn-success btn-sm"><i class="bi-unlock" style="font-size: 1rem;"></i></button></td>
-        </tr>
-        <tr>
-            <th scope="row">1</th>
-            <td>Juan</td>
-            <td>juan@mail.com</td>
-            <td><span class="badge" style="background-color: #716;">Administrador</span></td>
-            <td><button type="button" class="btn btn-success btn-sm"><i class="bi-unlock" style="font-size: 1rem;"></i></button></td>
-        </tr>
+
+
+        {% endfor %}
     </tbody>
-</table>
+</table>  
+</div>
 
 {% endblock cuerpo %}
