@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
+from django.core.validators import validate_email
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.conf import settings
@@ -99,12 +100,23 @@ def turista_recuperarContraseña(request):
     if request.method == 'GET':
         return render(request, "turista_usuarios_recuperarContraseña.html")
     elif request.method == 'POST':
+        if request.POST['email'] == '':
+            messages.add_message(request, messages.ERROR, 'No se ingreso una direccion de correo')
+            return redirect('recuperar_contraseña')
+
+        try:
+            validate_email(request.POST['email'])
+        except ValidationError as errors:
+            for error in errors:
+                    messages.add_message(request, messages.ERROR, error)
+            return redirect('recuperar_contraseña')
+        
         user = User.objects.filter(email=request.POST['email']).first()
         new_pass = User.objects.make_random_password()
         user.set_password(new_pass)
         user.save()
         send_recoverEmail(user.email, new_pass)
-        return redirect('/lista_usuarios/')
+        return redirect('lista_usuarios')
 
 def send_recoverEmail(email, passwd):
     template = get_template('correo_usuarios_recuperarContraseña.html')
