@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from Modulos.Usuarios.views import admin_vista, turista_recuperarContraseña, turista_registrar
+from Modulos.Busqueda.views import admin_buscarUsuarios
 from Modulos.Atractivos.views import admin_vistaAtractivos,admin_registroAtractivos
 from Modulos.Usuarios.views import admin_vista, turista_recuperarContraseña, turista_registrar, turista_cambiarContraseña
 from django.contrib import admin
@@ -28,4 +28,5 @@ urlpatterns = [
     path('recuperar_contraseña/', turista_recuperarContraseña, name='recuperar_contraseña'),
     path('lista_atractivos/', admin_vistaAtractivos, name='lista_atractivos'),
     path('registrar_atractivos/', admin_registroAtractivos, name='registrar_atractivos'),
+    path('busqueda_usuarios/', admin_buscarUsuarios, name='busqueda_usuarios'),
 ]
