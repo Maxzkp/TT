@@ -137,7 +137,7 @@ EMAIL_PORT = 587
 
 EMAIL_HOST_USER = 'a027zd@gmail.com'
 
-print(config('EMAIL_HOST_PASSWORD'))
+
 
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 

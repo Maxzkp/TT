@@ -1,0 +1,34 @@
+{% extends 'general_cabecera.html' %} 
+
+{% block titulo_base %} - Vista atractivos{% endblock titulo_base %} 
+
+{% block cuerpo %}
+<h2 class="pt-2" style="color: #0a699e;"> Atractivos </h2>
+<table class="table table-striped">    
+    <thead>        
+      <tr>
+        <th scope="col">ID</th>  
+        <th scope="col">Tipo</th>
+        <th scope="col">Nombre</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for atractivo in atractivos %}
+        <tr>
+            <th scope="row">{{atractivo.id}}</th>
+            <td>{{ atractivo.tipo.descripcion }}</td>
+            <td>{{ atractivo.nombre }}</td>
+            <td>
+                 <!-- Boton de Editar -->
+                 <button type="button" class="btn btn-success">Editar</button>
+                 <!-- Boton de Borrar -->
+                <button type="button" class="btn btn-danger">Borrar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tr>      
+    </tbody>
+  </table>
+{% endblock cuerpo %}
