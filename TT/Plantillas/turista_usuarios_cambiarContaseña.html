@@ -3,6 +3,18 @@
 {% block titulo_base %} - Registro{% endblock titulo_base %}
 
 {% block cuerpo_base %}
+
+{% if messages %}
+    <div class="position-absolute p-3 top-0 start-0">
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    </div>
+{% endif %}
+
 <div class="row mt-5">
     <center>
         <div class="col-lg-3">
@@ -43,22 +55,11 @@
                         </center>
                     </div>
                     <button class="btn btn-primary mt-4" type="submit" name="usrp" value="{{ usr.id }}" style="background-color: #0a699e; border-color: #0a699e;">Cambiar</button>
-                    <a class="btn btn-primary mt-4 text-dark" href="lista_usuarios/" style="background-color: #ffffff; border-color: #0a699e;">Volver</a>
+                    <a class="btn btn-primary mt-4 text-dark" href="{% url 'lista_usuarios' %}" style="background-color: #ffffff; border-color: #0a699e;">Volver</a>
                 </form>
             </div>
 
         </div>
-
-        {% if messages %}
-        <div class="mt-4 col-5">
-        {% for message in messages %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-        </div>
-        {% endif %}
     </center>
 </div>
 {% endblock cuerpo_base %}
