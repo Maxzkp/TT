@@ -1,6 +1,26 @@
 {% extends 'general_cabecera.html' %} 
 
-{% block titulo_base %} - Vista usuarios{% endblock titulo_base %} 
+{% block titulo_base %} - Vista usuarios{% endblock titulo_base %}
+
+{% block busqueda %}
+  <form class="d-flex" method="POST" action="">
+    <input class="form-control me-2" type="search" placeholder="Buscar usuario" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Buscar</button>
+  </form>
+{% endblock busqueda %}
+        
+{% block accones_usuario %}
+  <span class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Bienvenido <b>--User--</b>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li><a class="dropdown-item" href="#">Cambiar Contraseña</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
+    </ul>
+  </span>
+{% endblock accones_usuario %}
 
 {% block cuerpo %}
 

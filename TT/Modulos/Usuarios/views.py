@@ -12,16 +12,21 @@ from django.conf import settings
 def admin_vista(request):
     if request.method == 'GET':
         usuarios = User.objects.all()
-        usuarios.order_by('groups__name')
-        usuarios = usuarios.exclude(groups__name__in=['Superuser', 'Administrador'])
+        capturistas = usuarios.filter(groups__name__in=['Capturista'])
+        turistas = usuarios.filter(groups__name__in=['Turista'])
+        usuarios = capturistas | turistas
         return render(request, "admin_usuarios_vista.html", {'usuarios':usuarios})
     elif request.method == 'POST':
-        usuario = User.objects.filter(id=request.POST['req'])
-        if usuario.first() != None:
-            usuario = usuario.first()
-            usuario.is_active = not usuario.is_active
-            usuario.save()
-        return redirect('lista_usuarios')
+        
+        return admin_bloquearUsuario(request)
+
+def admin_bloquearUsuario(request):
+    usuario = User.objects.filter(id=request.POST['req'])
+    if usuario.first() != None:
+        usuario = usuario.first()
+        usuario.is_active = not usuario.is_active
+        usuario.save()
+    return redirect('lista_usuarios')
 
 def turista_registrar(request):
     if request.method == 'GET':
@@ -90,6 +95,17 @@ def turista_cambiarContraseña(request):
             messages.add_message(request, messages.ERROR, 'La contraseña original no es correcta')
             return render(request, "turista_usuarios_cambiarContaseña.html", {'usr':user})
 
+def turista_recuperarContraseña(request):
+    if request.method == 'GET':
+        return render(request, "turista_usuarios_recuperarContraseña.html")
+    elif request.method == 'POST':
+        user = User.objects.filter(email=request.POST['email']).first()
+        new_pass = User.objects.make_random_password()
+        user.set_password(new_pass)
+        user.save()
+        send_recoverEmail(user.email, new_pass)
+        return redirect('/lista_usuarios/')
+
 def send_recoverEmail(email, passwd):
     template = get_template('correo_usuarios_recuperarContraseña.html')
     content = template.render({'pass':passwd})
@@ -103,14 +119,3 @@ def send_recoverEmail(email, passwd):
 
     mail.attach_alternative(content, 'text/html')
     mail.send()
-
-def turista_recuperarContraseña(request):
-    if request.method == 'GET':
-        return render(request, "turista_usuarios_recuperarContraseña.html")
-    elif request.method == 'POST':
-        user = User.objects.filter(email=request.POST['email']).first()
-        new_pass = User.objects.make_random_password()
-        user.set_password(new_pass)
-        user.save()
-        send_recoverEmail(user.email, new_pass)
-        return redirect('/lista_usuarios/')
