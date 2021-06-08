@@ -7,14 +7,26 @@ from django.db.models.fields.related import ForeignKey, ManyToManyField, OneToOn
 class Tipo(models.Model):
     descripcion = CharField(max_length=50, null=False, blank=False)
 
+    def __str__(self):
+        return self.descripcion
+
 class Zona(models.Model):
     descripcion = CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return self.descripcion
 
 class Categoria(models.Model):
     descripcion = CharField(max_length=50, null=False, blank=False)
 
+    def __str__(self):
+        return self.descripcion
+
 class Servicio(models.Model):
     descripcion = CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return self.descripcion
 
 class Atractivo(models.Model):
     tipo = OneToOneField(Tipo, on_delete=CASCADE, blank=False)
@@ -22,7 +34,13 @@ class Atractivo(models.Model):
     categorias = ManyToManyField(Categoria, blank=False)
     servicios = ManyToManyField(Servicio, blank=False)
     nombre = CharField(max_length=100, null=False, blank=False)
+    direccion = CharField(max_length=100, null=False, blank=False)
     descripcion = CharField(max_length=600, null=False, blank=False)
+
+    def __str__(self):
+        return self.nombre
+
+    
 
 class Horario(models.Model):
     inicio = TimeField()
