@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Modulos.Atractivos',
     'Modulos.Reseñas',
     'Modulos.Usuarios',
+    'Modulos.Busqueda',
 ]
 
 MIDDLEWARE = [
