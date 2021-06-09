@@ -28,6 +28,11 @@ def admin_bloquearUsuario(request):
         usuario.save()
     return redirect('lista_usuarios')
 
+def admin_seleccion(request):
+    if request.method == 'GET':
+        return render(request, "admin_general_vista.html")
+
+
 def turista_registrar(request):
     if request.method == 'GET':
         return render(request, "turista_usuarios_registrar.html", {'name':'', 'email':''})

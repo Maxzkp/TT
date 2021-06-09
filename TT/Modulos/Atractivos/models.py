@@ -38,9 +38,7 @@ class Atractivo(models.Model):
     descripcion = CharField(max_length=600, null=False, blank=False)
 
     def __str__(self):
-        return self.nombre
-
-    
+        return self.nombre  
 
 class Horario(models.Model):
     inicio = TimeField()

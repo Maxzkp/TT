@@ -1,7 +1,7 @@
-{% extends 'general_plantillaPrincipal.html' %} 
+{% extends 'general_cabecera.html' %} 
 {% block titulo_base %} - Registro{% endblock titulo_base %}
 
-{% block cuerpo_base %}
+{% block cuerpo %}
 <div class="row mt-2">
     <center>
         <div class="col-lg-3">
@@ -56,25 +56,68 @@
                                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                 </div>
                             </div>     
+                                                   
+                            <div class="col-9">                                                                  
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Servicios&nbsp;</span>                                    
+                                    <select class="form-select" multiple aria-label="multiple select example">
+                                    {% for servicio in servicios %}    
+                                        <option value="1">{{ servicio.descripcion }}</option>
+                                    {% endfor %}    
+                                    </select>
+                                </div>    
+                            </div>
                             
                             <div class="col-9">
                                 <div class="input-group input-group-sm mb-3">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Servicios</span>
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Categorias</span>                                    
                                     <select class="form-select" multiple aria-label="multiple select example">
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    {% for categoria in categorias %}    
+                                        <option value="1">{{ categoria.descripcion }}</option>
+                                    {% endfor %}
                                     </select>
                                 </div>    
-                            </div>        
+                            </div>
+                                                  
+                            <div class="col-9">
+                                <h6 style="color: #0a699e;">Horario</h6>
+
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Titulo&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Inicio&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <input type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Fin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <input type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text">Dias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <select class="form-select" multiple aria-label="multiple select example">
+                                        <option value="1">Lunes</option>
+                                        <option value="2">Martes</option>
+                                        <option value="3">Miercoles</option>
+                                        <option value="4">Jueves</option>
+                                        <option value="5">Viernes</option>
+                                        <option value="6">Sabado</option>
+                                        <option value="7">Domingo</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
                         </center>    
                         </div>        
                     <button class="btn btn-primary mt-4" type="submit" style="background-color: #0a699e; border-color: #0a699e;">Registrar</button>
-                    <button class="btn btn-primary mt-4 text-dark" type="button" href="#" style="background-color: #ffffff; border-color: #0a699e;">Volver</button>
+                    <button class="btn btn-primary mt-4 text-dark" type="button" href="{% url 'lista_atractivos' %}" style="background-color: #ffffff; border-color: #0a699e;">Volver</button>
                 </form>
 
             </div>
         </div>
     </center>
 </div>      
-{% endblock cuerpo_base %}
+{% endblock cuerpo %}
