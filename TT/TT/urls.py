@@ -14,9 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+<<<<<<< HEAD
 from Modulos.Busqueda.views import admin_buscarUsuarios
+=======
+>>>>>>> 6e71c91a52ffcf1c96033b4d6d1f7ef4e132812b
 from Modulos.Atractivos.views import admin_vistaAtractivos,admin_registroAtractivos
-from Modulos.Usuarios.views import admin_vista, turista_recuperarContraseña, turista_registrar, turista_cambiarContraseña
+from Modulos.Usuarios.views import admin_vista, turista_recuperarContraseña, turista_registrar, turista_cambiarContraseña,admin_seleccion
 from django.contrib import admin
 from django.urls import path
 
@@ -28,5 +31,9 @@ urlpatterns = [
     path('recuperar_contraseña/', turista_recuperarContraseña, name='recuperar_contraseña'),
     path('lista_atractivos/', admin_vistaAtractivos, name='lista_atractivos'),
     path('registrar_atractivos/', admin_registroAtractivos, name='registrar_atractivos'),
+<<<<<<< HEAD
     path('busqueda_usuarios/', admin_buscarUsuarios, name='busqueda_usuarios'),
+=======
+    path('admin_general/',admin_seleccion, name='admin_general'),
+>>>>>>> 6e71c91a52ffcf1c96033b4d6d1f7ef4e132812b
 ]

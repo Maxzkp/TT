@@ -3,32 +3,48 @@
 {% block titulo_base %} - Vista atractivos{% endblock titulo_base %} 
 
 {% block cuerpo %}
-<h2 class="pt-2" style="color: #0a699e;"> Atractivos </h2>
-<table class="table table-striped">    
-    <thead>        
-      <tr>
-        <th scope="col">ID</th>  
-        <th scope="col">Tipo</th>
-        <th scope="col">Nombre</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        {% for atractivo in atractivos %}
+<div class="container bg-white mt-5 rounded-3">   
+    <div class="row">
+      <div class="navbar-brand pt-4 btn-group col-9">
+          <h2 style="color: #0a699e;"> Atractivos </h2>          
+      </div>
+      <div class="col-md-2 pt-4" role="group" aria-label="Basic example">
+        <!-- Boton de Registrar -->
+        <center>
+          <a href="{% url 'registrar_atractivos' %}">
+            <i class="bi bi-plus-circle" style="font-size: 2rem; color: #46daff; margin-left:10rem;" ></i>
+          </a>  
+        </center>    
+      </div>       
+    </div>     
+     
+
+  <table class="table table-striped">    
+      <thead>        
         <tr>
-            <th scope="row">{{atractivo.id}}</th>
-            <td>{{ atractivo.tipo.descripcion }}</td>
-            <td>{{ atractivo.nombre }}</td>
-            <td>
-                 <!-- Boton de Editar -->
-                 <button type="button" class="btn btn-success">Editar</button>
-                 <!-- Boton de Borrar -->
-                <button type="button" class="btn btn-danger">Borrar</button>
-            </td>
+          <th scope="col">ID</th>  
+          <th scope="col">Tipo</th>
+          <th scope="col">Nombre</th>
+          <th scope="col"></th>
         </tr>
-        {% endfor %}
-    </tr>      
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <tr>
+          {% for atractivo in atractivos %}
+          <tr>
+              <th scope="row">{{atractivo.id}}</th>
+              <td>{{ atractivo.tipo.descripcion }}</td>
+              <td>{{ atractivo.nombre }}</td>
+              <td>
+                  <!-- Boton de Editar -->
+                  <button type="button" class="btn btn-success">Editar</button>
+                  <!-- Boton de Borrar -->
+                  <button type="button" class="btn btn-danger">Borrar</button>
+              </td>
+          </tr>
+          {% endfor %}
+      </tr>      
+      </tbody>
+    </table>
+</div>    
 {% endblock cuerpo %}
